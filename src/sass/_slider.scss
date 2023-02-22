@@ -1,0 +1,38 @@
+
+.slider {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 10px;
+}
+
+label[for='range'] {
+  width: 35px;
+  height: 40px;
+  position: absolute;
+  top: -45px;
+  left: 0;
+  color: hsl(0, 0%, 0%);
+  pointer-events: none;
+}
+
+label[for='range'] span {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: bold;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+label[for='range'] svg {
+  height: inherit;
+  position: relative;
+  left: 1px;
+  fill: hsl(207, 90%, 77%);
+  z-index: -1;
+  pointer-events: none;
+}
