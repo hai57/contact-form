@@ -1,91 +1,51 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {   useState } from "react";
 
 import Slider from "./slider";
+import { v4 as uuidv4 } from "uuid";
+
+const datadefault = {
+  fName: "",
+  lName: "",
+  company: "",
+  mail: "",
+  phone: "",
+  gender: "",
+  payment: "",
+  card: "",
+  expiration: "",
+  cvn: "",
+};
 
 const Forms = () => {
-  const [values, setValues] = useState(500);
 
-  const handleChange = (e) => {
-    setValues(e.target.value);
+  const [range, setRange] = useState(0);
+
+  const getRange = (e) => {
+    setRange(e.target.value);
   };
 
-  const [data, setData] = useState({
-    fName: "",
-    lName: "",
-    company: "",
-    mail: "",
-    phone: "",
-    gender: "",
-    payment: "",
-    card: "",
-    expiration: "",
-    cvn: "",
-  });
+  const [forms,setForms] = useState([]);
 
-  const fName = useRef(null);
-  const lName = useRef(null);
-  const company = useRef(null);
-  const mail = useRef(null);
-  const phone = useRef(null);
-  const gender = useRef(null);
-  const payment = useRef(null);
-  const card = useRef(null);
-  const expiration = useRef(null);
-  const cvn = useRef(null);
+  const [data, setData] = useState(datadefault);
+
+  const [errForm, setErrForm] = useState({});
+
+  
 
   const onHandleReset = () => {
-    fName.current.value = "";
-    lName.current.value = "";
-    company.current.value = "";
-    mail.current.value = "";
-    phone.current.value = "";
-    gender.current.value = "";
-    payment.current.value = "";
-    card.current.value = "";
-    expiration.current.value = "";
-    cvn.current.value = "";
+    setData(datadefault);
+    setErrForm(datadefault);
+    setRange(0);
   };
-  const [errForm, setErrForm] = useState({});
-  // const itemMap = [
-  //   {
-  //     id: 1,
-  //     label: "FIRST NAME",
-  //     name: "fName",
-  //     errname: errForm.fName,
-  //     refname: "fName",
-  //   },
-  //   {
-  //     id: 2,
-  //     label: "LAST NAME:",
-  //     name: "lName",
-  //     errname: errForm.lName,
-  //     refname: "lName",
-  //   },
-  //   {
-  //     id: 3,
-  //     label: "COMPANY:",
-  //     name: "company",
-  //     errname: errForm.company,
-  //     refname: "company",
-  //   },
-  //   {
-  //     id: 4,
-  //     label: "EMAIL:",
-  //     name: "mail",
-  //     errname: errForm.mail,
-  //     refname: "mail",
-  //   },
-  //   {
-  //     id: 5,
-  //     label: "PHONE NUMBER:",
-  //     name: "phone",
-  //     errname: errForm.phone,
-  //     refname: "phone",
-  //   },
-  // ];
+
   const onHandleSubmitError = () => {
+
     let err = { ...errForm };
     let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    let  cardDate= data.expiration.split('-');
+    let date = new Date();
+    let currentDate = date.getFullYear()/100 | 0 + '';
+
     if (data.fName === "") {
       err.fName = "First name required!";
     } else {
@@ -102,41 +62,60 @@ const Forms = () => {
       delete err.company;
     }
     if (data.mail === "") {
-      err.mail = "Email equired!";
+      err.mail = "Email required!";
     } else if (!regex.test(data.mail)) {
-      err.mail = "Email không đúng định dạng";
+      err.mail = "Email invalidate"; 
     } else {
       delete err.mail;
     }
     if (data.phone === "") {
-      err.phone = "Phone number equired!";
-    } else {
+      err.phone = "Phone number required!";
+    } else if (!/^[0-9]+$/.test(data.phone) ||  data.phone.length !==10 )  {
+      err.phone = "Please only enter number and there are only 10 numbers";
+    }else {
       delete err.phone;
     }
     if (data.gender === "") {
-      err.gender = "Gender equired!";
+      err.gender = "Gender required!";
     } else {
       delete err.gender;
     }
     if (data.payment === "") {
-      err.payment = "Payment mode equired!";
+      err.payment = "Payment mode required!";
     } else {
       delete err.payment;
     }
     if (data.card === "") {
-      err.card = "Card equired!";
-    } else {
+      err.card = "Card required!";
+    } else if (!/^[0-9]+$/.test(data.card)){
+      err.card = "Only number";
+    }else {
       delete err.card;
     }
     if (data.expiration === "") {
-      err.expiration = "Expiration mode equired!";
-    } else {
+      err.expiration = "Expiration mode required!";
+    } else  if (!/\d\d-\d\d/.test(data.expiration)) {
+      err.expiration = "Expiry date format must be MM-YY";
+    } else if (cardDate[0]<1 || cardDate[0]>12) {
+      err.expiration = "Expiry month must be from 00 to 12";
+    } else if (new Date(currentDate + cardDate[1], cardDate[0], 1) < date) {
+      err.expiration = "Expiry date must be this month or later";
+    }
+    else {
       delete err.expiration;
     }
     if (data.cvn === "") {
-      err.cvn = "CVN equired!";
-    } else {
+      err.cvn = "CVN required!";
+    } else if(!/^[0-9]+$/.test(data.cvn) ) {
+      err.cvn ="Please enter number";   
+    } 
+    else {
       delete err.cvn;
+    }
+    if (range === 0) {
+      err.range = "Donate required!";
+    } else {
+      delete err.range;
     }
     setErrForm({ ...err });
     return Object.keys(err).length === 0;
@@ -148,215 +127,240 @@ const Forms = () => {
       [e.target.name]: e.target.value,
     }));
   };
+  
+  const addForms = () => {
+    setForms([
+      ...forms,
+      {
+        id: uuidv4(),
+        fName: data.fName,
+        lName: data.lName,
+        company: data.company,
+        mail: data.mail,
+        phone: data.phone,
+        gender: data.gender,
+        payment: data.payment,
+        card: data.card,
+        expiration: data.expiration,
+        cvn: data.cvn,
+        donate: range,
+      }
+    ])
+  }
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
     let isVali = onHandleSubmitError();
-    console.log(isVali);
-    console.log(data);
+    if(isVali) {
+      addForms();
+      localStorage.setItem("form", JSON.stringify(forms));
+    }
   };
 
   return (
     <div className="content">
       <form onSubmit={onHandleSubmit}>
         <div className="container-inp">
-          <div className="inp-group-left">
-            {/* {itemMap.map((item) => {
-              return (
-                <div key={item.id} className="form-group">
-                  <label>
-                    {item.label} <span>*</span>
-                  </label>
-                  <br />
-                  <input
-                    ref={item.refname}
-                    className="inp"
-                    name={item.name}
-                    onChange={onHandleChange}
-                  ></input>
-                  <br />
-                  <span className="non-valid">{item.errname}</span>
-                </div>
-              );
-            })} */}
-            <div className="form-group">
-              <label>
-                FIRST NAME<span>*</span>
-              </label>
-              <br />
-              <input
-                ref={fName}
-                className="inp"
-                name="fName"
-                onChange={onHandleChange}
-              ></input>
-              <br />
+          <div className="form-group">
+            <label>
+              FIRST NAME<span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="fName"
+              placeholder="Enter first name"
+              value={data.fName}
+              onChange={onHandleChange}
+            />
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.fName}</span>
             </div>
-            <div className="form-group">
-              <label>
-                LAST NAME<span>*</span>
-              </label>
-              <br />
-              <input
-                ref={lName}
-                className="inp"
-                name="lName"
-                onChange={onHandleChange}
-              ></input>
-              <br />
-              <span className="non-valid">{errForm.lName}</span>
-            </div>
-            <div className="form-group">
-              <label>
-                COMPANY<span>*</span>
-              </label>
-              <br />
-              <input
-                ref={company}
-                className="inp"
-                name="company"
-                onChange={onHandleChange}
-              ></input>
-              <br />
-              <span className="non-valid">{errForm.company}</span>
-            </div>
-            <div className="form-group">
-              <label>
-                EMAIL<span>*</span>
-              </label>
-              <br />
-              <input
-                ref={mail}
-                className="inp"
-                name="mail"
-                onChange={onHandleChange}
-              ></input>
-              <br />
-              <span className="non-valid">{errForm.mail}</span>
-            </div>
-            <div className="form-group">
-              <label>
-                PHONE NUMBER<span>*</span>
-              </label>
-              <br />
-              <input
-                ref={phone}
-                className="inp"
-                name="phone"
-                onChange={onHandleChange}
-              ></input>
-              <br />
-              <span className="non-valid">{errForm.phone}</span>
-            </div>
           </div>
-          <div className="inp-group-right">
-            <div className="form-group">
-              <label>
-                GENDER <span>*</span>
-              </label>
-              <br />
-              <select className="inp" name="gender" onChange={onHandleChange}>
-                <option value=""></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-              <br />
+          <div className="form-group">
+            <label>
+              GENDER <span>*</span>
+            </label>
+            <select 
+              value={data.gender} 
+              className="inp" 
+              name="gender" 
+              onChange={onHandleChange}>
+              <option value=""></option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.gender}</span>
             </div>
-            <div className="form-group">
-              <label>
-                PAYMENT MODE <span>*</span>
-              </label>
-              <br />
+          </div>
+          <div className="form-group">
+            <label>
+              LAST NAME<span>*</span>
+            </label>
+            <input 
+              className="inp" 
+              name="lName" 
+              value={data.lName}
+              placeholder="Enter last name"
+              onChange={onHandleChange} />
+              <div className="err-wrapper">              
+                <span className="non-valid">{errForm.lName}</span>
+              </div>
+          </div>
+          <div className="form-group">
+            <label>
+              PAYMENT MODE <span>*</span>
+            </label>
+            <div className="radio-wrapper">
               <div>
                 <input
+                  className="radio-inp"
                   type={"radio"}
                   name="payment"
                   value="visa"
+                  id="visa"
                   onChange={onHandleChange}
                   checked={data.payment === "visa"}
-                ></input>
-                <label>Visa</label>
+                />
+                <label htmlFor="visa">Visa</label>
               </div>
               <div>
                 <input
+                  className="radio-inp"
                   type={"radio"}
                   name="payment"
                   value="mastercard"
+                  id="mastercard"
                   onChange={onHandleChange}
                   checked={data.payment === "mastercard"}
-                ></input>
-                <label>Mastercard</label>
+                />
+                <label htmlFor="mastercard">Mastercard</label>
               </div>
               <div>
                 <input
-                  ref={payment}
+                  className="radio-inp"
                   type={"radio"}
                   name="payment"
                   value="amex"
+                  id="amex"
                   onChange={onHandleChange}
                   checked={data.payment === "amex"}
-                ></input>
-                <label>Amex</label>
+                />
+                <label htmlFor="amex">Amex</label>
               </div>
+            </div>
+            <div className="err-wrapper">              
               <span className="non-valid">{errForm.payment}</span>
             </div>
-            <div className="form-group">
-              <label>
-                CARD NUMBER <span>*</span>
-              </label>
-              <br />
-              <input
-                ref={card}
-                className="inp"
-                name="card"
-                onChange={onHandleChange}
-              ></input>
-              <br />
+          </div>
+          <div className="form-group">
+            <label>
+              COMPANY<span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="company"
+              value={data.company}
+              placeholder="Enter company"
+              onChange={onHandleChange}
+            />
+            <div className="err-wrapper">             
+              <span className="non-valid">{errForm.company}</span>
+            </div>
+          </div>
+          <div className="form-group">
+            <label>
+              CARD NUMBER <span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="card"
+              value={data.card}
+              placeholder="Enter card"
+              onChange={onHandleChange}
+            />
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.card}</span>
             </div>
-            <div className="form-group">
-              <label>
-                EXPIRATION <span>*</span>
-              </label>
-              <br />
-              <input
-                className="inp"
-                name="expiration"
-                onChange={onHandleChange}
-              ></input>
-              <br />
+          </div>
+          <div className="form-group">
+            <label>
+              EMAIL<span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="mail"
+              value={data.mail}
+              placeholder="Enter Email"
+              onChange={onHandleChange}
+            />
+            <div className="err-wrapper">  
+             <span className="non-valid">{errForm.mail}</span>
+            </div>
+          </div>
+          <div className="form-group">
+            <label>
+              EXPIRATION <span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="expiration"
+              value={data.expiration}
+              placeholder="MM-YY"
+              onChange={onHandleChange}
+              maxLength="5"
+            />
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.expiration}</span>
             </div>
-            <div className="form-group">
-              <label>
-                CVN <span>*</span>
-              </label>
-              <br />
-              <input
-                className="inp"
-                name="cvn"
-                onChange={onHandleChange}
-              ></input>
-              <br />
+          </div>
+          <div className="form-group">
+            <label>
+              PHONE NUMBER<span>*</span>
+            </label>
+            <input
+              className="inp"
+              name="phone"
+              value={data.phone}
+              placeholder="Enter phone number"
+              onChange={onHandleChange}
+            />
+            <div className="err-wrapper">
+              <span className="non-valid">{errForm.phone}</span>
+            </div>
+          </div>
+          <div className="form-group">
+            <label>
+              CVN <span>*</span>
+            </label>
+            <input 
+              className="inp" 
+              name="cvn" 
+              value={data.cvn}
+              onChange={onHandleChange}
+              placeholder="3 or 4 number"
+              maxLength="4"
+            />
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.cvn}</span>
             </div>
           </div>
-        </div>
-
-        <div className="form-group slider">
-          <label>
-            DONATE US <span>*</span>
-          </label>
-          <Slider values={values} handleChange={handleChange} />
+          <div className="form-group slider">
+            <label>
+              DONATE US <span>*</span>
+            </label>
+            <Slider  range={range} getRange={getRange} />
+            <div className="err-wrapper m-30">
+              <span className="non-valid">{errForm.range}</span>
+            </div>
+          </div>
         </div>
         <div className="group-btn">
           <button className="btn-submit" type="submit">
-            Submit
+            SUBMIT
           </button>
           <button type="button" onClick={onHandleReset} className="btn-reset">
-            Reset
+            RESET
           </button>
         </div>
       </form>
