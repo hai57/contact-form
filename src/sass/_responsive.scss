@@ -1,27 +1,27 @@
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-    .container {
-        max-width: 375px;
+  .container {
+    max-width: 375px;
 
-        .banner {
-            display: none;
-        }
-
-        .content {
-            padding: 12px 10px;
-
-            form {
-                .container-inp {
-                    display: block;
-
-                    .form-group {
-                        width: 100%;
-                    }
-
-                    .slider {
-                        width: calc(100% - 15px);
-                    }
-                }
-            }
-        }
+    .banner {
+      display: none;
     }
+
+    .content {
+      padding: 12px 10px;
+
+      form {
+        .container-inp {
+          display: block;
+
+          .form-group {
+            width: 100%;
+          }
+
+          .slider {
+            width: calc(100% - 15px);
+          }
+        }
+      }
+    }
+  }
 }
