@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@300;400&family=Montserrat:wght@600;700&family=Poppins:wght@500;900&family=Roboto:wght@400;700&family=Satisfy&display=swap');
+
 :root {
   --default-color: #329e5e;
 }
@@ -5,13 +7,22 @@
 body {
   margin: 0;
   font-size: 14px;
+  background-color: #000;
+  font-family: 'Poppins';
 }
 
 .container {
-  display: flex;
   width: 100%;
   max-width: 1172px;
   margin: 0 auto;
+
+  .background {
+    display: flex;
+    width: 100%;
+    height: 900px;
+    margin-top: 20px;
+    background-color: white;
+  }
 
   .banner {
     height: 100%;
@@ -37,8 +48,7 @@ body {
           width: calc(50% - 20px);
 
           label {
-            font-weight: bolder;
-            font-size: 18px;
+            font-weight: 510;
           }
 
           .err-wrapper {
@@ -54,7 +64,7 @@ body {
           }
 
           .radio-wrapper {
-            font-size: 20px;
+            font-size: 14px;
 
             .radio-inp {
               accent-color: var(--default-color);
@@ -63,6 +73,7 @@ body {
 
           .inp {
             margin-top: 10px;
+            padding: 0 12px;
             height: 51px;
             width: 100%;
             border: solid 2px rgb(241, 241, 241);
@@ -70,6 +81,10 @@ body {
             border-radius: 4px;
             outline-color: var(--default-color);
             background-color: rgb(255, 255, 255);
+          }
+
+          .select {
+            width: calc(100% + 20px);
           }
 
           span {
@@ -87,6 +102,7 @@ body {
             align-items: center;
 
             label {
+              margin-left: 3px;
               font-weight: 100;
             }
           }

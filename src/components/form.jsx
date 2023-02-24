@@ -182,7 +182,7 @@ const Forms = () => {
             </label>
             <select 
               value={data.gender} 
-              className="inp" 
+              className="inp select" 
               name="gender" 
               onChange={onHandleChange}>
               <option value=""></option>

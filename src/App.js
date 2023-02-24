@@ -5,8 +5,10 @@ import "./sass/index.css";
 function App() {
   return (
     <div className="container">
-      <img className="banner" src={pic} alt="banner" />
-      <Form />
+      <div className="background">
+        <img className="banner" src={pic} alt="banner" />
+        <Form />
+      </div>
     </div>
   );
 }

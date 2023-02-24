@@ -13,7 +13,10 @@ const Slider = ({ range, getRange }) => {
   }, [range]);
 
   return (
-    <div className="slider">
+    <div className="slide">
+      <div className="line">
+        <div className="start"></div>
+      </div>
       <input
         name="range"
         type="range"
