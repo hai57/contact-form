@@ -1,156 +1,122 @@
-@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@300;400&family=Montserrat:wght@600;700&family=Poppins:wght@500;900&family=Roboto:wght@400;700&family=Satisfy&display=swap');
-
-:root {
-  --default-color: #329e5e;
-}
-
-body {
-  margin: 0;
-  font-size: 14px;
-  background-color: #000;
-  font-family: 'Poppins';
-}
-
-.container {
+.content {
+  padding: 80px 70px;
   width: 100%;
-  max-width: 1172px;
-  margin: 0 auto;
 
-  .background {
-    display: flex;
+  form {
     width: 100%;
-    height: 900px;
-    margin-top: 20px;
-    background-color: white;
-  }
-
-  .banner {
     height: 100%;
-    max-height: 900px;
-  }
 
-  .content {
-    padding: 80px 70px;
-    width: 100%;
-
-    form {
+    .container-inp {
       width: 100%;
-      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
 
-      .container-inp {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+      .form-group {
+        height: 120px;
+        width: calc(50% - 20px);
 
-        .form-group {
-          height: 120px;
-          width: calc(50% - 20px);
+        label {
+          font-weight: bolder;
+        }
 
-          label {
-            font-weight: 510;
+        .err-wrapper {
+          margin: 10px 0;
+
+          &.m-30 {
+            margin-top: 30px;
           }
 
-          .err-wrapper {
-            margin: 10px 0;
-
-            &.m-30 {
-              margin-top: 30px;
-            }
-
-            .non-valid {
-              font-size: 17px;
-            }
-          }
-
-          .radio-wrapper {
+          .non-valid {
+            color: #9F6000;
             font-size: 14px;
-
-            .radio-inp {
-              accent-color: var(--default-color);
-            }
-          }
-
-          .inp {
-            margin-top: 10px;
-            padding: 0 12px;
-            height: 51px;
-            width: 100%;
-            border: solid 2px rgb(241, 241, 241);
-            font-size: 15px;
-            border-radius: 4px;
-            outline-color: var(--default-color);
-            background-color: rgb(255, 255, 255);
-          }
-
-          .select {
-            width: calc(100% + 20px);
-          }
-
-          span {
-            color: red;
-            font-weight: bolder;
-          }
-
-          .radio-wrapper {
-            margin-top: 10px;
-            height: 51px;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            label {
-              margin-left: 3px;
-              font-weight: 100;
-            }
           }
         }
 
-        .slider {
+        .inp {
+          margin-top: 10px;
+          padding: 0 12px;
+          height: 51px;
           width: 100%;
-          margin-top: 20px;
+          border: solid 2px rgb(241, 241, 241);
+          font-size: 15px;
+          border-radius: 4px;
+          outline-color: var(--default-color);
+          background-color: rgb(255, 255, 255);
+        }
+
+        .select {
+          width: calc(100% + 20px);
+        }
+
+        span {
+          color: rgb(255, 0, 0);
+          font-weight: bolder;
+        }
+
+        .radio-wrapper {
+
+          font-size: 14px;
+          margin-top: 10px;
+          height: 51px;
+          width: 100%;
+          text-align: center;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          label {
+            margin-left: 3px;
+            font-weight: 100;
+          }
+
+          .radio-inp {
+            accent-color: var(--default-color);
+          }
         }
       }
 
-      .group-btn {
-        display: flex;
-        float: right;
+      .slider {
         width: 100%;
-        max-width: 300px;
+        margin-top: 20px;
+      }
+    }
 
-        .btn-submit {
-          margin-right: 10px;
-          width: 144px;
-          height: 47px;
-          text-align: center;
-          font-weight: bolder;
-          font-size: 15px;
-          border: none;
-          border-radius: 4px;
-          color: white;
-          background-color: var(--default-color);
-          box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-          cursor: pointer;
-        }
+    .group-btn {
+      display: flex;
+      float: right;
+      width: 100%;
+      max-width: 300px;
 
-        .btn-reset {
-          width: 144px;
-          height: 47px;
-          text-align: center;
-          font-weight: bolder;
-          font-size: 15px;
-          border: solid 3px rgb(241, 241, 241);
-          color: rgb(150, 150, 150);
-          border-radius: 4px;
-          background-color: white;
+      .btn-submit {
+        margin-right: 10px;
+        width: 144px;
+        height: 47px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 15px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        background-color: var(--default-color);
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+        cursor: pointer;
+      }
 
-          cursor: pointer;
-        }
+      .btn-reset {
+        width: 144px;
+        height: 47px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 15px;
+        border: solid 3px rgb(241, 241, 241);
+        color: rgb(150, 150, 150);
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
       }
     }
   }
