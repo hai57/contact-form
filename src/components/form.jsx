@@ -1,9 +1,9 @@
 import React, {   useState } from "react";
-
-import Slider from "./slider";
 import { v4 as uuidv4 } from "uuid";
 
-const datadefault = {
+import Slider from "./slider";
+
+const dataDefault = {
   fName: "",
   lName: "",
   company: "",
@@ -26,25 +26,24 @@ const Forms = () => {
 
   const [forms,setForms] = useState([]);
 
-  const [data, setData] = useState(datadefault);
+  const [data, setData] = useState(dataDefault);
 
   const [errForm, setErrForm] = useState({});
 
-  
+
 
   const onHandleReset = () => {
-    setData(datadefault);
-    setErrForm(datadefault);
+    setData(dataDefault);
+    setErrForm(dataDefault);
     setRange(0);
   };
 
   const onHandleSubmitError = () => {
-
     let err = { ...errForm };
     let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
     let  cardDate= data.expiration.split('-');
     let date = new Date();
-    let currentDate = date.getFullYear()/100 | 0 + '';
+    let currentDate = (date.getFullYear() / 100) | 0 + '';
 
     if (data.fName === "") {
       err.fName = "First name required!";
@@ -64,7 +63,7 @@ const Forms = () => {
     if (data.mail === "") {
       err.mail = "Email required!";
     } else if (!regex.test(data.mail)) {
-      err.mail = "Email invalidate"; 
+      err.mail = "Email invalidate";
     } else {
       delete err.mail;
     }
@@ -72,7 +71,7 @@ const Forms = () => {
       err.phone = "Phone number required!";
     } else if (!/^[0-9]+$/.test(data.phone) ||  data.phone.length !==10 )  {
       err.phone = "Please only enter number and there are only 10 numbers";
-    }else {
+    } else {
       delete err.phone;
     }
     if (data.gender === "") {
@@ -89,7 +88,7 @@ const Forms = () => {
       err.card = "Card required!";
     } else if (!/^[0-9]+$/.test(data.card)){
       err.card = "Only number";
-    }else {
+    } else {
       delete err.card;
     }
     if (data.expiration === "") {
@@ -107,8 +106,8 @@ const Forms = () => {
     if (data.cvn === "") {
       err.cvn = "CVN required!";
     } else if(!/^[0-9]+$/.test(data.cvn) ) {
-      err.cvn ="Please enter number";   
-    } 
+      err.cvn ="Please enter number";
+    }
     else {
       delete err.cvn;
     }
@@ -127,7 +126,7 @@ const Forms = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  
+
   const addForms = () => {
     setForms([
       ...forms,
@@ -180,11 +179,12 @@ const Forms = () => {
             <label>
               GENDER <span>*</span>
             </label>
-            <select 
-              value={data.gender} 
-              className="inp select" 
-              name="gender" 
-              onChange={onHandleChange}>
+            <select
+              value={data.gender}
+              className="inp select"
+              name="gender"
+              onChange={onHandleChange}
+            >
               <option value=""></option>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -197,13 +197,14 @@ const Forms = () => {
             <label>
               LAST NAME<span>*</span>
             </label>
-            <input 
-              className="inp" 
-              name="lName" 
+            <input
+              className="inp"
+              name="lName"
               value={data.lName}
               placeholder="Enter last name"
-              onChange={onHandleChange} />
-              <div className="err-wrapper">              
+              onChange={onHandleChange}
+            />
+              <div className="err-wrapper">
                 <span className="non-valid">{errForm.lName}</span>
               </div>
           </div>
@@ -249,7 +250,7 @@ const Forms = () => {
                 <label htmlFor="amex">Amex</label>
               </div>
             </div>
-            <div className="err-wrapper">              
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.payment}</span>
             </div>
           </div>
@@ -264,7 +265,7 @@ const Forms = () => {
               placeholder="Enter company"
               onChange={onHandleChange}
             />
-            <div className="err-wrapper">             
+            <div className="err-wrapper">
               <span className="non-valid">{errForm.company}</span>
             </div>
           </div>
@@ -294,7 +295,7 @@ const Forms = () => {
               placeholder="Enter Email"
               onChange={onHandleChange}
             />
-            <div className="err-wrapper">  
+            <div className="err-wrapper">
              <span className="non-valid">{errForm.mail}</span>
             </div>
           </div>
@@ -333,9 +334,9 @@ const Forms = () => {
             <label>
               CVN <span>*</span>
             </label>
-            <input 
-              className="inp" 
-              name="cvn" 
+            <input
+              className="inp"
+              name="cvn"
               value={data.cvn}
               onChange={onHandleChange}
               placeholder="3 or 4 number"
@@ -359,7 +360,11 @@ const Forms = () => {
           <button className="btn-submit" type="submit">
             SUBMIT
           </button>
-          <button type="button" onClick={onHandleReset} className="btn-reset">
+          <button
+            type="button"
+            onClick={onHandleReset}
+            className="btn-reset"
+          >
             RESET
           </button>
         </div>
