@@ -95,7 +95,7 @@ const Forms = () => {
       err.expiration = "Expiration mode required!";
     } else  if (!/\d\d-\d\d/.test(data.expiration)) {
       err.expiration = "Expiry date format must be MM-YY";
-    } else if (cardDate[0]<1 || cardDate[0]>12) {
+    } else if (cardDate[0] < 1 || cardDate[0] > 12) {
       err.expiration = "Expiry month must be from 00 to 12";
     } else if (new Date(currentDate + cardDate[1], cardDate[0], 1) < date) {
       err.expiration = "Expiry date must be this month or later";
