@@ -59,8 +59,34 @@
             background-color: rgb(255, 255, 255);
           }
 
+          .inpdate-wrapper {
+            position: relative;
+
+            .inp-date::-ms-value {
+              font-size: 0;
+            }
+
+            span {
+              position: absolute;
+              top: 26px;
+              left: 10px;
+              font-size: 15px;
+              width: calc(100% - 15px);
+              height: calc(100% - 40px);
+              background-color: #fff;
+              color: #757575;
+              font-size: 15px;
+              font-weight: 100;
+              border-radius: 4px;
+            }
+          }
+
+
           .select {
             width: calc(100% + 20px);
+            cursor: pointer;
+            background-color: #FFF;
+
           }
 
           span {
@@ -78,13 +104,52 @@
             justify-content: space-between;
             align-items: center;
 
-            label {
+            .radio-label {
               margin-left: 3px;
               font-weight: 100;
-            }
+              cursor: pointer;
 
-            .radio-inp {
-              accent-color: var(--default-color);
+              .custom-radio {
+                position: relative;
+                left: -8px;
+                top: 6px;
+                width: 17px;
+                height: 17px;
+                border: 2px solid #9a9a9a;
+                border-radius: 50%;
+                display: inline-block;
+                cursor: pointer;
+
+                &.custom-radio::after {
+                  content: '';
+                  width: 12px;
+                  height: 12px;
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  border-radius: 50%;
+                  transition: opacity 0.2s;
+                  background: var(--default-color);
+                  opacity: 0;
+                  pointer-events: none;
+                }
+              }
+
+              .radio-inp {
+                margin: 0;
+                visibility: hidden;
+
+                &:checked {
+                  +span {
+                    border: 2px solid var(--default-color);
+                  }
+
+                  +span:after {
+                    opacity: 1;
+                  }
+                }
+              }
             }
           }
         }

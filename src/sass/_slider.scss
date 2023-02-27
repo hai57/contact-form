@@ -21,6 +21,7 @@
     width: 100%;
     height: 6px;
     background-color: rgb(241, 241, 241);
+    cursor: pointer;
 
     .start {
       width: 60px;
@@ -37,12 +38,11 @@
   }
 
   input::-webkit-slider-thumb {
-    width: 30px;
-    -webkit-appearance: none;
+    width: 45px;
     height: 10px;
+    -webkit-appearance: none;
     cursor: ew-resize;
     color: rgb(241, 241, 241);
-    background-color: red;
     box-shadow: -1000px 0 0 1000px var(--default-color);
   }
 
@@ -55,8 +55,9 @@
     top: -10px;
     left: 0;
     color: hsl(0, 0%, 0%);
-    pointer-events: none;
+    z-index: 3;
     background: var(--default-color);
+    pointer-events: none;
 
     .spa-donate {
       width: 100%;
@@ -66,7 +67,6 @@
       text-align: center;
       font-size: 0.9em;
       transform: translateX(-50%);
-      z-index: 5;
       color: white !important;
     }
   }

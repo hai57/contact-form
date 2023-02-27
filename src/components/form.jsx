@@ -1,7 +1,8 @@
-import React, {   useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Slider from "./slider";
+import Radio from "./radio";
 
 const dataDefault = {
   fName: "",
@@ -26,11 +27,19 @@ const Forms = () => {
 
   const [forms,setForms] = useState([]);
 
+  const formatDate = (input) => {
+    var datePart = input.split("-");
+    var first = "MM-YY";
+    if(input === "" ){
+      return first;
+    }else {
+      return  datePart[1]+ "-" +datePart[0].substring(2);
+    }
+  };
+
   const [data, setData] = useState(dataDefault);
 
   const [errForm, setErrForm] = useState({});
-
-
 
   const onHandleReset = () => {
     setData(dataDefault);
@@ -41,9 +50,8 @@ const Forms = () => {
   const onHandleSubmitError = () => {
     let err = { ...errForm };
     let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    let  cardDate= data.expiration.split('-');
+    let cardDate= data.expiration.split('-');
     let date = new Date();
-    let currentDate = (date.getFullYear() / 100) | 0 + '';
 
     if (data.fName === "") {
       err.fName = "First name required!";
@@ -93,11 +101,7 @@ const Forms = () => {
     }
     if (data.expiration === "") {
       err.expiration = "Expiration mode required!";
-    } else  if (!/\d\d-\d\d/.test(data.expiration)) {
-      err.expiration = "Expiry date format must be MM-YY";
-    } else if (cardDate[0] < 1 || cardDate[0] > 12) {
-      err.expiration = "Expiry month must be from 00 to 12";
-    } else if (new Date(currentDate + cardDate[1], cardDate[0], 1) < date) {
+    }  else if (new Date( cardDate[0], cardDate[1], 1) < date) {
       err.expiration = "Expiry date must be this month or later";
     }
     else {
@@ -212,44 +216,10 @@ const Forms = () => {
             <label>
               PAYMENT MODE <span>*</span>
             </label>
-            <div className="radio-wrapper">
-              <div>
-                <input
-                  className="radio-inp"
-                  type={"radio"}
-                  name="payment"
-                  value="visa"
-                  id="visa"
-                  onChange={onHandleChange}
-                  checked={data.payment === "visa"}
-                />
-                <label htmlFor="visa">Visa</label>
-              </div>
-              <div>
-                <input
-                  className="radio-inp"
-                  type={"radio"}
-                  name="payment"
-                  value="mastercard"
-                  id="mastercard"
-                  onChange={onHandleChange}
-                  checked={data.payment === "mastercard"}
-                />
-                <label htmlFor="mastercard">Mastercard</label>
-              </div>
-              <div>
-                <input
-                  className="radio-inp"
-                  type={"radio"}
-                  name="payment"
-                  value="amex"
-                  id="amex"
-                  onChange={onHandleChange}
-                  checked={data.payment === "amex"}
-                />
-                <label htmlFor="amex">Amex</label>
-              </div>
-            </div>
+            <Radio
+              data={data}
+              onHandleChange={onHandleChange}
+            />
             <div className="err-wrapper">
               <span className="non-valid">{errForm.payment}</span>
             </div>
@@ -303,14 +273,17 @@ const Forms = () => {
             <label>
               EXPIRATION <span>*</span>
             </label>
-            <input
-              className="inp"
-              name="expiration"
-              value={data.expiration}
-              placeholder="MM-YY"
-              onChange={onHandleChange}
-              maxLength="5"
-            />
+            <div className="inpdate-wrapper">
+              <input
+                className="inp inp-date"
+                name="expiration"
+                value={data.expiration}
+                onChange={onHandleChange}
+                maxLength="5"
+                type="month"
+              />
+              <span>{formatDate(data.expiration)}</span>
+            </div>
             <div className="err-wrapper">
               <span className="non-valid">{errForm.expiration}</span>
             </div>
