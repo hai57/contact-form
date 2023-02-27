@@ -83,8 +83,32 @@ body {
   background-color: white;
 }
 
+.container .content form .container-inp .form-group .inpdate-wrapper {
+  position: relative;
+}
+
+.container .content form .container-inp .form-group .inpdate-wrapper .inp-date::-ms-value {
+  font-size: 0;
+}
+
+.container .content form .container-inp .form-group .inpdate-wrapper span {
+  position: absolute;
+  top: 26px;
+  left: 10px;
+  font-size: 15px;
+  width: calc(100% - 15px);
+  height: calc(100% - 40px);
+  background-color: #fff;
+  color: #757575;
+  font-size: 15px;
+  font-weight: 100;
+  border-radius: 4px;
+}
+
 .container .content form .container-inp .form-group .select {
   width: calc(100% + 20px);
+  cursor: pointer;
+  background-color: #FFF;
 }
 
 .container .content form .container-inp .form-group span {
@@ -109,13 +133,52 @@ body {
           align-items: center;
 }
 
-.container .content form .container-inp .form-group .radio-wrapper label {
+.container .content form .container-inp .form-group .radio-wrapper .radio-label {
   margin-left: 3px;
   font-weight: 100;
+  cursor: pointer;
 }
 
-.container .content form .container-inp .form-group .radio-wrapper .radio-inp {
-  accent-color: var(--default-color);
+.container .content form .container-inp .form-group .radio-wrapper .radio-label .custom-radio {
+  position: relative;
+  left: -8px;
+  top: 6px;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #9a9a9a;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.container .content form .container-inp .form-group .radio-wrapper .radio-label .custom-radio.custom-radio::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 50%;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  background: var(--default-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.container .content form .container-inp .form-group .radio-wrapper .radio-label .radio-inp {
+  margin: 0;
+  visibility: hidden;
+}
+
+.container .content form .container-inp .form-group .radio-wrapper .radio-label .radio-inp:checked + span {
+  border: 2px solid var(--default-color);
+}
+
+.container .content form .container-inp .form-group .radio-wrapper .radio-label .radio-inp:checked + span:after {
+  opacity: 1;
 }
 
 .container .content form .container-inp .slider {
@@ -192,6 +255,7 @@ body {
   width: 100%;
   height: 6px;
   background-color: #f1f1f1;
+  cursor: pointer;
 }
 
 .slide .line .start {
@@ -208,12 +272,11 @@ body {
 }
 
 .slide input::-webkit-slider-thumb {
-  width: 30px;
-  -webkit-appearance: none;
+  width: 45px;
   height: 10px;
+  -webkit-appearance: none;
   cursor: ew-resize;
   color: #f1f1f1;
-  background-color: red;
   -webkit-box-shadow: -1000px 0 0 1000px var(--default-color);
           box-shadow: -1000px 0 0 1000px var(--default-color);
 }
@@ -229,8 +292,9 @@ body {
   top: -10px;
   left: 0;
   color: black;
-  pointer-events: none;
+  z-index: 3;
   background: var(--default-color);
+  pointer-events: none;
 }
 
 .slide .lb-donate .spa-donate {
@@ -242,7 +306,6 @@ body {
   font-size: 0.9em;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  z-index: 5;
   color: white !important;
 }
 
