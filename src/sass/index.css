@@ -83,32 +83,6 @@ body {
   background-color: white;
 }
 
-.container .content form .container-inp .form-group .inpdate-wrapper {
-  position: relative;
-}
-
-.container .content form .container-inp .form-group .inpdate-wrapper .inp-date {
-  cursor: pointer;
-}
-
-.container .content form .container-inp .form-group .inpdate-wrapper .inp-date::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-}
-
-.container .content form .container-inp .form-group .inpdate-wrapper span {
-  position: absolute;
-  top: 26px;
-  left: 10px;
-  font-size: 15px;
-  width: 220px;
-  height: calc(100% - 40px);
-  background-color: #fff;
-  color: #757575;
-  font-size: 15px;
-  font-weight: 100;
-  border-radius: 4px;
-}
-
 .container .content form .container-inp .form-group .pos-relative {
   position: relative;
   width: 100%;
@@ -260,11 +234,11 @@ body {
 }
 
 .slide input {
+  -webkit-appearance: none;
   position: relative;
   cursor: pointer;
   width: calc(100% - 80px);
   overflow: hidden;
-  -webkit-appearance: none;
   background-color: #f1f1f1;
 }
 
