@@ -87,8 +87,12 @@ body {
   position: relative;
 }
 
-.container .content form .container-inp .form-group .inpdate-wrapper .inp-date::-ms-value {
-  font-size: 0;
+.container .content form .container-inp .form-group .inpdate-wrapper .inp-date {
+  cursor: pointer;
+}
+
+.container .content form .container-inp .form-group .inpdate-wrapper .inp-date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
 }
 
 .container .content form .container-inp .form-group .inpdate-wrapper span {
@@ -96,7 +100,7 @@ body {
   top: 26px;
   left: 10px;
   font-size: 15px;
-  width: calc(100% - 15px);
+  width: 220px;
   height: calc(100% - 40px);
   background-color: #fff;
   color: #757575;
@@ -105,10 +109,25 @@ body {
   border-radius: 4px;
 }
 
-.container .content form .container-inp .form-group .select {
-  width: calc(100% + 20px);
+.container .content form .container-inp .form-group .pos-relative {
+  position: relative;
+  width: 100%;
+}
+
+.container .content form .container-inp .form-group .pos-relative .select {
+  -webkit-appearance: none;
+  width: calc(100% + 22px);
   cursor: pointer;
   background-color: #FFF;
+}
+
+.container .content form .container-inp .form-group .pos-relative .pos-absolute {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 }
 
 .container .content form .container-inp .form-group span {
