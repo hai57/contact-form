@@ -48,27 +48,6 @@ const Forms = () => {
     setRange(0);
   };
 
-  const [show,setShow] = useState(false);
-
-  const options = [
-    {
-      value: "",
-      text: "",
-    },
-    {
-      value: "male",
-      text: "Male",
-    },
-    {
-      value: "female",
-      text: "Female",
-    }
-  ]
-
-  const onHandleClick = () => {
-    return setShow(true);
-  }
-
   const onHandleSubmitError = () => {
     let err = { ...errForm };
     let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -219,7 +198,6 @@ const Forms = () => {
               <img
                 className="pos-absolute"
                 src={Dropdown}
-                onClick={onHandleClick}
                 alt="Dropdown icon"
               />
             </div>
