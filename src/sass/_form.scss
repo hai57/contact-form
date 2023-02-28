@@ -42,7 +42,7 @@
             }
 
             .non-valid {
-              color: #9F6000;
+              color: #d32f2f;
               font-size: 14px;
             }
           }
@@ -59,161 +59,150 @@
             background-color: rgb(255, 255, 255);
           }
 
-          .inpdate-wrapper {
-            position: relative;
-
-            .inp-date {
-              cursor: pointer;
-
-              &::-webkit-calendar-picker-indicator {
-                cursor: pointer;
-              }
-            }
-
-            span {
-              position: absolute;
-              top: 26px;
-              left: 10px;
-              font-size: 15px;
-              width: 220px;
-              height: calc(100% - 40px);
-              background-color: #fff;
-              color: #757575;
-              font-size: 15px;
-              font-weight: 100;
-              border-radius: 4px;
-            }
-          }
-
-          .pos-relative {
-            position: relative;
-            width: 100%;
-
-            .select {
-              -webkit-appearance: none;
-              width: calc(100% + 22px);
-              cursor: pointer;
-              background-color: #FFF;
-            }
-
-            .pos-absolute {
-              position: absolute;
-              top: 50%;
-              right: 0;
-              width: 15px;
-              height: 15px;
-              cursor: pointer;
-            }
-          }
-
           span {
-            color: rgb(255, 0, 0);
-            font-weight: bolder;
-          }
-
-          .radio-wrapper {
-            font-size: 14px;
-            margin-top: 10px;
-            height: 51px;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .radio-label {
-              margin-left: 3px;
-              font-weight: 100;
-              cursor: pointer;
-
-              .custom-radio {
-                position: relative;
-                left: -8px;
-                top: 6px;
-                width: 17px;
-                height: 17px;
-                border: 2px solid #9a9a9a;
-                border-radius: 50%;
-                display: inline-block;
-                cursor: pointer;
-
-                &.custom-radio::after {
-                  content: '';
-                  width: 12px;
-                  height: 12px;
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  border-radius: 50%;
-                  transition: opacity 0.2s;
-                  background: var(--default-color);
-                  opacity: 0;
-                  pointer-events: none;
-                }
-              }
-
-              .radio-inp {
-                margin: 0;
-                visibility: hidden;
-
-                &:checked {
-                  +span {
-                    border: 2px solid var(--default-color);
-                  }
-
-                  +span:after {
-                    opacity: 1;
-                  }
-                }
-              }
-            }
+            position: absolute;
+            top: 26px;
+            left: 10px;
+            font-size: 15px;
+            width: 220px;
+            height: calc(100% - 40px);
+            background-color: #fff;
+            color: #757575;
+            font-size: 15px;
+            font-weight: 100;
+            border-radius: 4px;
           }
         }
 
-        .slider {
+        .pos-relative {
+          position: relative;
           width: 100%;
-          margin-top: 20px;
+
+          .select {
+            -webkit-appearance: none;
+            width: calc(100% + 22px);
+            cursor: pointer;
+            background-color: #FFF;
+          }
+
+          .pos-absolute {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+          }
+        }
+
+        span {
+          color: rgb(255, 0, 0);
+          font-weight: bolder;
+        }
+
+        .radio-wrapper {
+          font-size: 14px;
+          margin-top: 10px;
+          height: 51px;
+          width: 100%;
+          text-align: center;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .radio-label {
+            margin-left: 3px;
+            font-weight: 100;
+            cursor: pointer;
+
+            .custom-radio {
+              position: relative;
+              left: -8px;
+              top: 6px;
+              width: 17px;
+              height: 17px;
+              border: 2px solid #9a9a9a;
+              border-radius: 50%;
+              display: inline-block;
+              cursor: pointer;
+
+              &.custom-radio::after {
+                content: '';
+                width: 12px;
+                height: 12px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+                transition: opacity 0.2s;
+                background: var(--default-color);
+                opacity: 0;
+                pointer-events: none;
+              }
+            }
+
+            .radio-inp {
+              margin: 0;
+              visibility: hidden;
+
+              &:checked {
+                +span {
+                  border: 2px solid var(--default-color);
+                }
+
+                +span:after {
+                  opacity: 1;
+                }
+              }
+            }
+          }
         }
       }
 
-      .group-btn {
-        display: flex;
-        float: right;
+      .slider {
         width: 100%;
-        max-width: 300px;
+        margin-top: 20px;
+      }
+    }
 
-        .btn-submit {
-          margin-right: 10px;
-          width: 144px;
-          height: 47px;
-          text-align: center;
-          font-weight: bolder;
-          font-size: 15px;
-          border: none;
-          border-radius: 4px;
-          color: #fff;
-          background-color: var(--default-color);
-          box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-          cursor: pointer;
-        }
+    .group-btn {
+      display: flex;
+      float: right;
+      width: 100%;
+      max-width: 300px;
 
-        .btn-reset {
-          width: 144px;
-          height: 47px;
-          text-align: center;
-          font-weight: bolder;
-          font-size: 15px;
-          border: solid 3px rgb(241, 241, 241);
-          color: rgb(150, 150, 150);
-          border-radius: 4px;
-          background-color: #fff;
-          cursor: pointer;
-        }
+      .btn-submit {
+        margin-right: 10px;
+        width: 144px;
+        height: 47px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 15px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        background-color: var(--default-color);
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+          rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+        cursor: pointer;
+      }
+
+      .btn-reset {
+        width: 144px;
+        height: 47px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 15px;
+        border: solid 3px rgb(241, 241, 241);
+        color: rgb(150, 150, 150);
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
       }
     }
   }
+}
 }

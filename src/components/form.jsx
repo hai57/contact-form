@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
 
 import Slider from "./slider";
 import Radio from "./radio";
@@ -14,7 +16,6 @@ const dataDefault = {
   gender: "",
   payment: "",
   card: "",
-  expiration: "",
   cvn: "",
 };
 
@@ -28,31 +29,22 @@ const Forms = () => {
 
   const [forms,setForms] = useState([]);
 
-  const formatDate = (input) => {
-    var datePart = input.split("-");
-    var first = "MM-YY";
-    if(input === "" ){
-      return first;
-    }else {
-      return  datePart[1]+ "-" +datePart[0].substring(2);
-    }
-  };
-
   const [data, setData] = useState(dataDefault);
 
   const [errForm, setErrForm] = useState({});
 
+  const [selectedValue, setSelectedValue] = useState(null);
+
   const onHandleReset = () => {
     setData(dataDefault);
     setErrForm(dataDefault);
+    setSelectedValue(null);
     setRange(0);
   };
 
   const onHandleSubmitError = () => {
     let err = { ...errForm };
     let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    let cardDate= data.expiration.split('-');
-    let date = new Date();
 
     if (data.fName === "") {
       err.fName = "First name required!";
@@ -100,20 +92,16 @@ const Forms = () => {
     } else {
       delete err.card;
     }
-    if (data.expiration === "") {
+    if (JSON.stringify(selectedValue) === "null") {
       err.expiration = "Expiration mode required!";
-    }  else if (new Date( cardDate[0], cardDate[1], 1) < date) {
-      err.expiration = "Expiry date must be this month or later";
-    }
-    else {
+    } else {
       delete err.expiration;
     }
     if (data.cvn === "") {
       err.cvn = "CVN required!";
     } else if(!/^[0-9]+$/.test(data.cvn) ) {
       err.cvn ="Please enter number";
-    }
-    else {
+    } else {
       delete err.cvn;
     }
     if (range === 0) {
@@ -145,7 +133,7 @@ const Forms = () => {
         gender: data.gender,
         payment: data.payment,
         card: data.card,
-        expiration: data.expiration,
+        expiration: selectedValue,
         cvn: data.cvn,
         donate: range,
       }
@@ -154,8 +142,8 @@ const Forms = () => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    let isVali = onHandleSubmitError();
-    if(isVali) {
+    let isValidate = onHandleSubmitError();
+    if(isValidate) {
       addForms();
       localStorage.setItem("form", JSON.stringify(forms));
     }
@@ -282,15 +270,15 @@ const Forms = () => {
               EXPIRATION <span>*</span>
             </label>
             <div className="inpdate-wrapper">
-              <input
-                className="inp inp-date"
-                name="expiration"
-                value={data.expiration}
-                onChange={onHandleChange}
-                maxLength="5"
-                type="month"
+              <DatePicker
+                className="inp"
+                selected={selectedValue}
+                onChange={date => setSelectedValue(date)}
+                showMonthYearPicker
+                minDate={new Date(2023,1)}
+                placeholderText="MM-YY"
+                dateFormat="MM-yy"
               />
-              <span>{formatDate(data.expiration)}</span>
             </div>
             <div className="err-wrapper">
               <span className="non-valid">{errForm.expiration}</span>
