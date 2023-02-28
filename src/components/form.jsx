@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Slider from "./slider";
 import Radio from "./radio";
+import Dropdown from "../img/dropdown.png"
 
 const dataDefault = {
   fName: "",
@@ -46,6 +47,27 @@ const Forms = () => {
     setErrForm(dataDefault);
     setRange(0);
   };
+
+  const [show,setShow] = useState(false);
+
+  const options = [
+    {
+      value: "",
+      text: "",
+    },
+    {
+      value: "male",
+      text: "Male",
+    },
+    {
+      value: "female",
+      text: "Female",
+    }
+  ]
+
+  const onHandleClick = () => {
+    return setShow(true);
+  }
 
   const onHandleSubmitError = () => {
     let err = { ...errForm };
@@ -183,16 +205,24 @@ const Forms = () => {
             <label>
               GENDER <span>*</span>
             </label>
-            <select
-              value={data.gender}
-              className="inp select"
-              name="gender"
-              onChange={onHandleChange}
-            >
-              <option value=""></option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
+            <div className="pos-relative">
+              <select
+                value={data.gender}
+                className="inp select"
+                name="gender"
+                onChange={onHandleChange}
+              >
+                <option value=""></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <img
+                className="pos-absolute"
+                src={Dropdown}
+                onClick={onHandleClick}
+                alt="Dropdown icon"
+              />
+            </div>
             <div className="err-wrapper">
               <span className="non-valid">{errForm.gender}</span>
             </div>
