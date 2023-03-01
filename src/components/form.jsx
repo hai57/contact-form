@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import Slider from "./slider";
 import Radio from "./radio";
@@ -138,14 +141,36 @@ const Forms = () => {
         donate: range,
       }
     ])
-  }
+  };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
     let isValidate = onHandleSubmitError();
-    if(isValidate) {
+    if (isValidate) {
       addForms();
+      toast.success("Success", {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      onHandleReset();
       localStorage.setItem("form", JSON.stringify(forms));
+    } else {
+      toast.error("Error", {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     }
   };
 
@@ -338,6 +363,7 @@ const Forms = () => {
           </button>
         </div>
       </form>
+      <ToastContainer/>
     </div>
   );
 };
