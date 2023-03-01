@@ -58,6 +58,15 @@ body {
   font-weight: bolder;
 }
 
+.container .content form .container-inp .form-group .inpdate-wrapper .react-datepicker__month-container {
+  float: left;
+  width: 340px;
+}
+
+.container .content form .container-inp .form-group .inpdate-wrapper .react-datepicker__triangle {
+  left: -130px !important;
+}
+
 .container .content form .container-inp .form-group .err-wrapper {
   margin: 10px 0;
 }
