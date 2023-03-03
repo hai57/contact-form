@@ -92,6 +92,10 @@ body {
   background-color: white;
 }
 
+.container .content form .container-inp .form-group .inp .error {
+  outline-color: red;
+}
+
 .container .content form .container-inp .form-group .pos-relative {
   position: relative;
   width: 100%;
