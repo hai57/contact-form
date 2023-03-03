@@ -1,353 +1,201 @@
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import React from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import Slider from "./slider";
-import Radio from "./radio";
-import Dropdown from "../img/dropdown.png"
+import Datepicker from "./datepicker";
+import Input from "./Input";
+import Dropdown from "./dropdown";
+import RadioButton from "./radioButton";
+import RadioGroup from "./radioGroup";
 
-const dataDefault = {
-  fName: "",
-  lName: "",
+const defaultValues = {
+  first_name: "",
+  last_name: "",
   company: "",
-  mail: "",
-  phone: "",
+  card_number: "",
   gender: "",
-  payment: "",
-  card: "",
+  email: "",
+  phone_number: "",
   cvn: "",
+  payment: "",
 };
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const formSchema = Yup.object({
+  first_name: Yup.string().required("Enter First Name "),
+  last_name: Yup.string().required("Enter Last Name"),
+  company: Yup.string().required("Enter company"),
+  card_number: Yup.string()
+    .required("Enter Number")
+    .matches(
+      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+      "Only number"
+    ),
+  email: Yup.string().required("Enter your email").email("Invalid email"),
+  phone_number: Yup.string()
+    .required("Enter your phone number")
+    .matches(phoneRegExp, "Phone number is not valid"),
+  cvn: Yup.string()
+    .required("Enter cvn")
+    .matches(
+      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+      "only number"
+    ).max(4,"Only 4 number"),
+  payment: Yup.mixed().oneOf(
+    ["visa", "mastercard", "amex"],
+    "Choose your payment"
+  ),
+  expiration: Yup.string().required("Choose your expiration"),
+});
 const Forms = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    resetField,
+  } = useForm({
+    resolver: yupResolver(formSchema),
+    defaultValues,
+    mode: "onSubmit",
+  });
 
-  const [range, setRange] = useState(0);
-
-  const getRange = (e) => {
-    setRange(e.target.value);
+  const onHandleClick = () => {
+    resetField("first_name");
+    resetField("last_name");
+    resetField("company");
+    resetField("email");
+    resetField("phone_number");
+    resetField("gender");
+    resetField("payment");
+    resetField("card_number");
+    resetField("expiration");
+    resetField("cvn");
+    resetField("donate");
   };
 
-  const [forms,setForms] = useState([]);
-
-  const [data, setData] = useState(dataDefault);
-
-  const [errForm, setErrForm] = useState({});
-
-  const [selectedValue, setSelectedValue] = useState(null);
-
-  const onHandleReset = () => {
-    setData(dataDefault);
-    setErrForm(dataDefault);
-    setSelectedValue(null);
-    setRange(0);
-  };
-
-  const onHandleSubmitError = () => {
-    let err = { ...errForm };
-    let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
-    if (data.fName === "") {
-      err.fName = "First name required!";
-    } else {
-      delete err.fName;
-    }
-    if (data.lName === "") {
-      err.lName = "Last name required!";
-    } else {
-      delete err.lName;
-    }
-    if (data.company === "") {
-      err.company = "Company required!";
-    } else {
-      delete err.company;
-    }
-    if (data.mail === "") {
-      err.mail = "Email required!";
-    } else if (!regex.test(data.mail)) {
-      err.mail = "Email invalidate";
-    } else {
-      delete err.mail;
-    }
-    if (data.phone === "") {
-      err.phone = "Phone number required!";
-    } else if (!/^[0-9]+$/.test(data.phone) ||  data.phone.length !==10 )  {
-      err.phone = "Please only enter number and there are only 10 numbers";
-    } else {
-      delete err.phone;
-    }
-    if (data.gender === "") {
-      err.gender = "Gender required!";
-    } else {
-      delete err.gender;
-    }
-    if (data.payment === "") {
-      err.payment = "Payment mode required!";
-    } else {
-      delete err.payment;
-    }
-    if (data.card === "") {
-      err.card = "Card required!";
-    } else if (!/^[0-9]+$/.test(data.card)){
-      err.card = "Only number";
-    } else {
-      delete err.card;
-    }
-    if (JSON.stringify(selectedValue) === "null") {
-      err.expiration = "Expiration mode required!";
-    } else {
-      delete err.expiration;
-    }
-    if (data.cvn === "") {
-      err.cvn = "CVN required!";
-    } else if(!/^[0-9]+$/.test(data.cvn) ) {
-      err.cvn ="Please enter number";
-    } else {
-      delete err.cvn;
-    }
-    if (range === 0) {
-      err.range = "Donate required!";
-    } else {
-      delete err.range;
-    }
-    setErrForm({ ...err });
-    return Object.keys(err).length === 0;
-  };
-
-  const onHandleChange = (e) => {
-    setData(() => ({
-      ...data,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const addForms = () => {
-    setForms([
-      ...forms,
-      {
-        id: uuidv4(),
-        fName: data.fName,
-        lName: data.lName,
-        company: data.company,
-        mail: data.mail,
-        phone: data.phone,
-        gender: data.gender,
-        payment: data.payment,
-        card: data.card,
-        expiration: selectedValue,
-        cvn: data.cvn,
-        donate: range,
-      }
-    ])
-  };
-
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-    let isValidate = onHandleSubmitError();
-    if (isValidate) {
-      addForms();
-      toast.success("Success", {
-        position: "top-right",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      onHandleReset();
-      localStorage.setItem("form", JSON.stringify(forms));
-    } else {
-      toast.error("Error", {
-        position: "top-right",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
+  const handleOnSubmit = (value) => {
+    try {
+      // Call API here
+      console.log(value);
+      localStorage.setItem("form", JSON.stringify(value));
+      toast.success("Success");
+      onHandleClick();
+    } catch (error) {
+      toast.error(`Error: ${error}`);
     }
   };
 
   return (
     <div className="content">
-      <form onSubmit={onHandleSubmit}>
+      <form onSubmit={handleSubmit(handleOnSubmit)}>
         <div className="container-inp">
-          <div className="form-group">
-            <label>
-              FIRST NAME<span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="fName"
-              placeholder="Enter first name"
-              value={data.fName}
-              onChange={onHandleChange}
+          <Input
+            control={control}
+            name="first_name"
+            label="First Name"
+            placeholder="Enter your First Name..."
+            error={errors.first_name?.message}
+            require
+          />
+          <Dropdown control={control} label="Gender" name="gender" require>
+            <option value=""></option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </Dropdown>
+          <Input
+            control={control}
+            name="last_name"
+            label="Last Name"
+            placeholder="Enter Your Last Name"
+            require
+            error={errors.last_name?.message}
+          />
+          <RadioGroup
+            label="PAYMENT MODE"
+            require
+            errors={errors.payment?.message}
+          >
+            <RadioButton
+              control={control}
+              name="payment"
+              value="visa"
+              label="Visa"
             />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.fName}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              GENDER <span>*</span>
-            </label>
-            <div className="pos-relative">
-              <select
-                value={data.gender}
-                className="inp select"
-                name="gender"
-                onChange={onHandleChange}
-              >
-                <option value=""></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-              <img
-                className="pos-absolute"
-                src={Dropdown}
-                alt="Dropdown icon"
-              />
-            </div>
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.gender}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              LAST NAME<span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="lName"
-              value={data.lName}
-              placeholder="Enter last name"
-              onChange={onHandleChange}
+            <RadioButton
+              control={control}
+              name="payment"
+              value="mastercard"
+              label="Master Card"
             />
-              <div className="err-wrapper">
-                <span className="non-valid">{errForm.lName}</span>
-              </div>
-          </div>
-          <div className="form-group">
-            <label>
-              PAYMENT MODE <span>*</span>
-            </label>
-            <Radio
-              data={data}
-              onHandleChange={onHandleChange}
+            <RadioButton
+              control={control}
+              name="payment"
+              value="amex"
+              label="Amex"
             />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.payment}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              COMPANY<span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="company"
-              value={data.company}
-              placeholder="Enter company"
-              onChange={onHandleChange}
-            />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.company}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              CARD NUMBER <span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="card"
-              value={data.card}
-              placeholder="Enter card"
-              onChange={onHandleChange}
-            />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.card}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              EMAIL<span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="mail"
-              value={data.mail}
-              placeholder="Enter Email"
-              onChange={onHandleChange}
-            />
-            <div className="err-wrapper">
-             <span className="non-valid">{errForm.mail}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              EXPIRATION <span>*</span>
-            </label>
-            <div className="inpdate-wrapper">
-              <DatePicker
-                className="inp"
-                selected={selectedValue}
-                onChange={date => setSelectedValue(date)}
-                showMonthYearPicker
-                minDate={new Date(2023,1)}
-                placeholderText="MM-YY"
-                dateFormat="MM-yy"
-              />
-            </div>
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.expiration}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              PHONE NUMBER<span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="phone"
-              value={data.phone}
-              placeholder="Enter phone number"
-              onChange={onHandleChange}
-            />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.phone}</span>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>
-              CVN <span>*</span>
-            </label>
-            <input
-              className="inp"
-              name="cvn"
-              value={data.cvn}
-              onChange={onHandleChange}
-              placeholder="3 or 4 number"
-              maxLength="4"
-            />
-            <div className="err-wrapper">
-              <span className="non-valid">{errForm.cvn}</span>
-            </div>
-          </div>
+          </RadioGroup>
+          <Input
+            control={control}
+            name="company"
+            label="Company"
+            placeholder="Your Company"
+            error={errors.company?.message}
+            require
+          />
+          <Input
+            control={control}
+            name="card_number"
+            label="Card Number"
+            placeholder="Enter card number"
+            error={errors.card_number?.message}
+            require
+          />
+          <Input
+            control={control}
+            name="email"
+            label="EMAIL"
+            placeholder="Enter email"
+            require
+            error={errors.email?.message}
+          />
+          <Datepicker
+            control={control}
+            name="expiration"
+            label="EXPIRATION"
+            error={errors.expiration?.message}
+            require
+          />
+          <Input
+            control={control}
+            name="phone_number"
+            label="PHONE NUMBER"
+            placeholder="Enter phone number"
+            error={errors.phone_number?.message}
+            require
+          />
+          <Input
+            control={control}
+            name="cvn"
+            label="CVN"
+            placeholder="Enter CVN"
+            require
+            error={errors.cvn?.message}
+          />
           <div className="form-group slider">
             <label>
               DONATE US <span>*</span>
             </label>
-            <Slider  range={range} getRange={getRange} />
-            <div className="err-wrapper m-30">
-              <span className="non-valid">{errForm.range}</span>
-            </div>
+            <Slider
+              control={control}
+              name="donate"
+              min={0}
+              max={10000}
+            />
           </div>
         </div>
         <div className="group-btn">
@@ -356,14 +204,13 @@ const Forms = () => {
           </button>
           <button
             type="button"
-            onClick={onHandleReset}
+            onClick={onHandleClick}
             className="btn-reset"
           >
             RESET
           </button>
         </div>
       </form>
-      <ToastContainer/>
     </div>
   );
 };

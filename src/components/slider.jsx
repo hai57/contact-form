@@ -1,40 +1,38 @@
 import { useEffect, useRef, useState } from "react";
+import { useController } from "react-hook-form";
 
-const Slider = ({ range, getRange }) => {
-
+const Slider = ({ control, name, min, max }) => {
+  const { field } = useController({
+    control,
+    name,
+    defaultValue: 0,
+  });
   const [step, setStep] = useState(0);
-
   const ref = useRef(null);
 
   useEffect(() => {
     const rangeLinePadding = 5;
-    const calcStep = (ref.current.offsetWidth - rangeLinePadding) / (ref.current.max );
+    const calcStep =
+      (ref.current.offsetWidth - rangeLinePadding) / ref.current.max;
     setStep(calcStep);
-  }, [range]);
+  }, [field.value]);
 
   return (
     <div className="slide">
       <div className="line">
         <div className="start"></div>
       </div>
-      <input
-        name="range"
-        type="range"
-        id="range"
-        min="0"
-        max="1000"
-        value={range}
-        onChange={getRange}
-        ref={ref}
-      />
+      <input {...field} type="range" min={min} max={max} ref={ref} />
       <label
         className="lb-donate"
         htmlFor="range"
         style={{
-          transform: `translateX(${range * step}px)`,
+          transform: `translateX(${field.value * step}px)`,
         }}
       >
-        <span className="spa-donate">&lt; &nbsp; $ {range} &nbsp; &gt;</span>
+        <span className="spa-donate">
+          &lt; &nbsp; $ {field.value} &nbsp; &gt;
+        </span>
       </label>
     </div>
   );
