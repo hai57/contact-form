@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import Slider from "./slider";
 import Datepicker from "./datepicker";
-import Input from "./Input";
+import Input from "./input";
 import Dropdown from "./dropdown";
 import RadioButton from "./radioButton";
 import RadioGroup from "./radioGroup";
@@ -36,6 +36,7 @@ const formSchema = Yup.object({
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "Only number"
     ),
+  gender: Yup.string().required("Choose your gender"),
   email: Yup.string().required("Enter your email").email("Invalid email"),
   phone_number: Yup.string()
     .required("Enter your phone number")
@@ -102,7 +103,13 @@ const Forms = () => {
             error={errors.first_name?.message}
             require
           />
-          <Dropdown control={control} label="Gender" name="gender" require>
+          <Dropdown
+            control={control}
+            label="Gender"
+            name="gender"
+            require
+            error={errors.gender?.message}
+          >
             <option value=""></option>
             <option value="male">Male</option>
             <option value="female">Female</option>
