@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import Slider from "./slider";
 import Datepicker from "./datepicker";
-import Input from "./Input";
+import Input from "./input";
 import Dropdown from "./dropdown";
 import RadioButton from "./radioButton";
 import RadioGroup from "./radioGroup";
@@ -36,6 +36,7 @@ const formSchema = Yup.object({
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "Only number"
     ),
+  gender: Yup.string().required("Choose your gender"),
   email: Yup.string().required("Enter your email").email("Invalid email"),
   phone_number: Yup.string()
     .required("Enter your phone number")
@@ -45,7 +46,8 @@ const formSchema = Yup.object({
     .matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "only number"
-    ).max(4,"Only 4 number"),
+    )
+    .max(4, "Only 4 number"),
   payment: Yup.mixed().oneOf(
     ["visa", "mastercard", "amex"],
     "Choose your payment"
@@ -102,7 +104,13 @@ const Forms = () => {
             error={errors.first_name?.message}
             require
           />
-          <Dropdown control={control} label="Gender" name="gender" require>
+          <Dropdown
+            control={control}
+            label="Gender"
+            name="gender"
+            require
+            error={errors.gender?.message}
+          >
             <option value=""></option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -190,23 +198,14 @@ const Forms = () => {
             <label>
               DONATE US <span>*</span>
             </label>
-            <Slider
-              control={control}
-              name="donate"
-              min={0}
-              max={10000}
-            />
+            <Slider control={control} name="donate" min={0} max={10000} />
           </div>
         </div>
         <div className="group-btn">
           <button className="btn-submit" type="submit">
             SUBMIT
           </button>
-          <button
-            type="button"
-            onClick={onHandleClick}
-            className="btn-reset"
-          >
+          <button type="button" onClick={onHandleClick} className="btn-reset">
             RESET
           </button>
         </div>
