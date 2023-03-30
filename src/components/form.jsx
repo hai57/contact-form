@@ -46,7 +46,8 @@ const formSchema = Yup.object({
     .matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "only number"
-    ).max(4,"Only 4 number"),
+    )
+    .max(4, "Only 4 number"),
   payment: Yup.mixed().oneOf(
     ["visa", "mastercard", "amex"],
     "Choose your payment"
@@ -197,23 +198,14 @@ const Forms = () => {
             <label>
               DONATE US <span>*</span>
             </label>
-            <Slider
-              control={control}
-              name="donate"
-              min={0}
-              max={10000}
-            />
+            <Slider control={control} name="donate" min={0} max={10000} />
           </div>
         </div>
         <div className="group-btn">
           <button className="btn-submit" type="submit">
             SUBMIT
           </button>
-          <button
-            type="button"
-            onClick={onHandleClick}
-            className="btn-reset"
-          >
+          <button type="button" onClick={onHandleClick} className="btn-reset">
             RESET
           </button>
         </div>
